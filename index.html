@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="modal.js"></script>
+  </head>
+  <body>
+    <button class="button js-modal-open-template-modal">Open modal</button>
+
+    <div id="TemplateModal" class="modal modal--square">
+      <div class="modal__inner">
+        <div class="modal__centered">
+          <div class="modal__centered-content">
+            <h1>Hello world!</h1>
+            <p>Inner content</p>
+          </div>
+
+          <button type="button" class="modal__close js-modal-close text-link">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="presentation"
+              class="icon icon-close"
+              viewBox="0 0 64 64"
+            >
+              <path d="M19 17.61l27.12 27.13m0-27.12L19 44.74" />
+            </svg>
+            <span class="icon__fallback-text">Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
