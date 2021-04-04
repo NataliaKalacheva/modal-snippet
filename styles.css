@@ -4,7 +4,7 @@
   --colorBlack: #000;
   --colorText: #1c1d1d;
   --colorModalBg: #fff;
-  --colorModalOverlay: #000;
+  --colorModalOverlay: rgba(0, 0, 0, 0.85);
 }
 
 .button {
@@ -34,23 +34,80 @@
   background: var(--colorBlack);
 }
 
-.modal {
-  display: none;
-  bottom: 0;
-  left: 0;
-  opacity: 1;
-  overflow: hidden;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 30;
-  color: var(--colorWhite);
-  align-items: center;
-  justify-content: center;
+.i-close {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--is, 1));
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+}
+.i-close::after,
+.i-close::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  top: 8px;
+  left: 1px;
+}
+.i-close::after {
+  transform: rotate(-45deg);
 }
 
-.modal.modal--quick-shop {
-  align-items: flex-start;
+.modal {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 990;
+  overflow: hidden;
+}
+
+.modal:before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: overlay-on 0.5s forwards;
+  cursor: pointer;
+}
+
+.modal--overlay {
+  background-color: var(--colorModalOverlay);
+}
+
+.modal--is-active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal__inner {
+  width: 520px;
+  max-width: 100%;
+  max-height: 90%;
+  overflow: auto;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 20px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  width: 520px;
 }
 
 .modal a,
@@ -58,208 +115,48 @@
   color: inherit;
 }
 
-.modal .btn:not([disabled]):not(.btn--secondary):not(.btn--body),
-.modal .btn:not([disabled]):not(.btn--secondary):not(.btn--body):hover {
-  color: var(--colorWhite);
+.modal__close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.5;
+  background: none;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal__close:hover {
+  opacity: 1;
 }
 
 .modal-open .modal .modal__inner {
   animation: modal-open 0.5s forwards;
 }
 
-.modal-open .modal:before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1c1d1d;
-  background-color: var(--colorModalBg);
-  animation: overlay-on 0.5s forwards;
-  cursor: pointer;
-}
-
 .modal-closing .modal .modal__inner {
   animation: modal-closing 0.5s forwards;
 }
 
-.modal-closing .modal:before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--colorModalOverlay);
-  background-color: var(--colorModalBg);
-  animation: overlay-off 0.5s forwards;
-}
-
-.modal-open--solid .modal:before {
-  background-color: var(--colorModalOverlay);
-}
-
-.modal-open .modal--solid:before {
-  background-color: #000;
-  animation: full-overlay-on 0.5s forwards;
-}
-
-.modal-closing .modal--solid:before {
-  background-color: #000;
-  animation: full-overlay-off 0.5s forwards;
-}
-
-.modal--is-closing {
-  display: flex !important;
-  overflow: hidden;
-}
-
-.modal--is-active {
-  display: flex !important;
-  overflow: hidden;
-}
-
-@media only screen and (min-width: 769px) {
-  .modal-open {
-    overflow: hidden;
+@keyframes modal-open {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.modal__inner {
-  transform-style: preserve-3d;
-  flex: 0 1 auto;
-  margin: 15px;
-  max-width: calc(100% - 15px);
-  display: flex;
-  align-items: center;
-}
-
-@media only screen and (min-width: 769px) {
-  .modal__inner {
-    margin: 40px;
-    max-width: calc(100% - 80px);
+@keyframes modal-closing {
+  0% {
+    opacity: 1;
+    transform: scale(1);
   }
-}
-
-.modal--square .modal__inner {
-  background-color: var(--colorWhite);
-  color: var(--colorText);
-}
-
-.modal__inner img {
-  display: block;
-  max-height: 90vh;
-}
-
-.modal__inner .image-wrap img {
-  max-height: none;
-}
-
-.modal__centered {
-  position: relative;
-  flex: 0 1 auto;
-  min-width: 1px;
-  max-width: 100%;
-}
-
-.modal--square .modal__centered-content {
-  max-height: 80vh;
-  padding: 22.5px;
-  min-width: 200px;
-  min-height: 200px;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media only screen and (min-width: 769px) {
-  .modal--square .modal__centered-content {
-    padding: 45px;
-    max-height: 90vh;
-    max-width: 1200px;
-  }
-}
-
-.modal__close {
-  border: 0;
-  padding: 15px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  color: #fff;
-}
-
-@media only screen and (min-width: 769px) {
-  .modal__close {
-    padding: 30px;
-  }
-}
-
-.modal__close .icon {
-  width: 28px;
-  height: 28px;
-}
-
-.modal__close:focus,
-.modal__close:hover {
-  color: #fff;
-}
-
-.modal--square .modal__close {
-  position: absolute;
-  color: #1c1d1d;
-  color: var(--colorText);
-  padding: 10px;
-}
-
-.modal--square .modal__close:focus,
-.modal--square .modal__close:hover {
-  color: #1c1d1d;
-  color: var(--colorText);
-}
-
-.modal .page-content,
-.modal .page-width {
-  padding: 0;
-}
-
-.popup-cta {
-  margin-bottom: 15px;
-}
-
-@media only screen and (max-width: 768px) {
-  .modal--mobile-friendly {
-    top: auto;
-    bottom: 0;
-    overflow: auto;
-  }
-
-  .modal--mobile-friendly.modal--square .modal__centered-content {
-    padding: 20px 20px 0;
-  }
-
-  .modal--mobile-friendly.modal--is-active {
-    overflow: auto;
-  }
-  .modal-open .modal--mobile-friendly:before {
-    display: none;
-  }
-
-  .modal--mobile-friendly .modal__inner {
-    margin: 0;
-    border: 2px solid;
-    border-color: var(--colorText);
-  }
-
-  .modal--mobile-friendly .h1 {
-    padding-right: 25px;
-  }
-
-  .modal--mobile-friendly input {
-    font-size: 16px !important;
-  }
-
-  .modal--mobile-friendly .text-close {
-    display: none;
+  to {
+    opacity: 0;
+    transform: scale(0.9);
   }
 }
