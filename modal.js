@@ -71,13 +71,11 @@ class Modal {
     this.bindEvents();
   }
   close(evt) {
-    console.log("WORK");
     if (!this.modalIsOpen) {
       return;
     }
 
     if (evt) {
-      console.log("HERE", evt);
       if (evt.target.closest("[data-modal-close]")) {
       } else if (evt.target.closest(".modal__inner")) {
         return;
@@ -118,7 +116,6 @@ class Modal {
     document.removeEventListener("keyup", this.onEscDown);
   }
   onEscDown(evt) {
-    console.log(evt);
     if (evt.keyCode === 27) {
       this.close();
     }
@@ -127,5 +124,4 @@ class Modal {
 
 window.addEventListener("DOMContentLoaded", () => {
   const templateModal = new Modal("TemplateModal", "template-modal");
-  console.log(templateModal);
 });
